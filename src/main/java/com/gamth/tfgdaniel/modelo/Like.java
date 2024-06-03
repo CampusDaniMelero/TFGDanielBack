@@ -5,23 +5,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "categorias")
-public class Categoria {
+@Table(name = "likes")
+public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idCategoria;
-    @Column(name = "nombreCategoria" , length = 80)
-    private String nombre;
+    private int idLike;
 
+    @ManyToOne
+    @JoinColumn(name = "idUsuario")
+    private Usuario idUsuario;
 
-
-    @ManyToMany(mappedBy = "categorias")
-    private List<Post> posts;
+    @ManyToOne
+    @JoinColumn(name = "idPost")
+    private Post idPost;
 
 }

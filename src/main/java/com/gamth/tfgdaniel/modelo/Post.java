@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.net.URL;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,6 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "posts")
 public class Post {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPost;
 
     @Column(name = "descripcionPost" , length = 500 , nullable = false)
@@ -21,18 +25,11 @@ public class Post {
     @Column(name = "nombreVideojuego" , length = 100 , nullable = false)
     private String nombreVideojuego;
 
-    @Column(name = "fechaPost" )
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private String fechaPost;
 
-    @Column(name = "imgPost" , length = 300)
-    private String imgPost;
 
-    @Column(name = "imgPost2" , length = 300)
-    private String imgPost2;
+    @Column(name = "imgPost1" , length = 500)
+    private URL imgPost1;
 
-    @Column(name = "imgPost3" , length = 300)
-    private String imgPost3;
 
 
 
@@ -40,7 +37,9 @@ public class Post {
     @JoinColumn(name = "idUsuario")
     private Usuario idUsuario;
 
-    @ManyToOne
-    @JoinColumn(name = "idCategoria")
-    private Categoria idCategoria;
+    @ManyToMany
+    @JoinTable(name = "post_categoria",
+            joinColumns = @JoinColumn(name = "idPost"),
+            inverseJoinColumns = @JoinColumn(name = "idCategoria"))
+    private List<Categoria> categorias;
 }
